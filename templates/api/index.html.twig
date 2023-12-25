@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listes Régions{% endblock %}
+
+{% block body %}
+<div class="container">
+
+<h1>Liste des Régions</h1>
+
+<br>    
+
+    <div class="row">
+        {% for maRegion in mesRegions %}
+            <div class="col-md-3">
+                <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+                    <div class="card-header">{{ maRegion.code }}</div>
+                    <div class="card-body">
+                        <h4 class="card-title">{{ maRegion.nom }}</h4>
+                    </div>
+                </div>
+            </div>
+            {% if loop.index % 4 == 0 %} {# Start a new row after every 4 cards #}
+                </div><div class="row">
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
