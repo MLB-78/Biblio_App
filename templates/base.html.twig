@@ -20,13 +20,27 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Accueil
+          <a class="nav-link active" href="{{ path('accueil') }}">Accueil
+              <span class="visually-hidden">(current)</span>
+          </a>
+      </li>
+
+        <li class="nav-item">
+          <a class="nav-link active" href="{{ path('listeRegions')}}">Régions
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
+          <a class="nav-link active" href="{{ path('listeDepsParRegions') }}">Départements
+            <span class="visually-hidden">(current)</span>
+          </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{{ path('listeComParDeps') }}">Communes
+            <span class="visually-hidden">(current)</span>
+          </a>
+        </li>
+       
       </ul>
       <form class="d-flex">
         <input class="form-control me-sm-2" type="search" placeholder="Search">

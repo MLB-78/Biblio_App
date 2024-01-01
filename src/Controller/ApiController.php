@@ -18,8 +18,9 @@ class ApiController extends AbstractController
         $mesRegions=file_get_contents('https://geo.api.gouv.fr/regions');
         $mesRegionsTab = $serializer->decode($mesRegions,'json');
         $mesRegionObjet = $serializer->denormalize($mesRegionsTab,'App\Entity\Region[]');
-        $mesRegions = $serializer->deserlize($mesRegions);
-        return $this->render('api/index.html.twig', [
+        $mesRegions = $serializer->deserialize($mesRegions, 'App\Entity\Region[]', 'json');
+
+        return $this->render('api/region.html.twig', [
             'mesRegions'=>$mesRegionObjet
         ]);
     }
@@ -58,7 +59,34 @@ class ApiController extends AbstractController
         ]);
     }
     
+    /**
+     * @Route("/listeComParDep", name="listeComParDeps")
+     */
+    public function listeComParDep(Request $request, SerializerInterface $serializer)
+{
+    $codeDepartement = $request->query->get('departement');
+    $mesDepartements = file_get_contents('https://geo.api.gouv.fr/departements');
+    $mesDepartementsArray = $serializer->decode($mesDepartements, 'json');
     
+    // Utilisez tous les départements par défaut
+    $mesDepartements = $mesDepartementsArray;
+    
+    // Convertir $mesDepartements en tableau
+    $mesDepartements = array_values($mesDepartements);
+
+    if ($codeDepartement == null || $codeDepartement == "Toutes") {
+        $mesComs = file_get_contents('https://geo.api.gouv.fr/communes');
+    } else {
+        $mesComs = file_get_contents('https://geo.api.gouv.fr/departements/'.$codeDepartement.'/communes');
+    }
+
+    $mesComsArray = $serializer->decode($mesComs, 'json');
+
+    return $this->render('api/listeCom.html.twig', [
+        'mesDepartements' => $mesDepartements,
+        'mesComs' => $mesComsArray,
+    ]);
+}
 
 
 

@@ -1,0 +1,31 @@
+{# templates/accueil.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur notre site{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Bienvenue sur notre site | RF - Région France</h1>
+
+        <br>
+
+        <p>
+            Les communes françaises, au nombre de plus de 35 000,
+            constituent le socle de l'organisation administrative
+            du pays. Riches en diversité, elles incarnent 
+            l'essence de la vie locale, offrant des caractéristiques
+            uniques, des traditions ancrées et des patrimoines variés.
+            Ces entités territoriales forment le tissu social
+            et culturel de la France, chacune contribuant
+            à l'histoire nationale avec son identité propre.
+            Des petites bourgades pittoresques aux métropoles
+            dynamiques, les communes façonnent la mosaïque multicolore
+            de la société française.
+        </p>
+
+        <img src="{{ asset('img/carteFR.jpg') }}" alt="Votre image" class="img-fluid mt-3 mb-3">
+
+        
+    </div>
+{% endblock %}
