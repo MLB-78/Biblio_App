@@ -4,3 +4,19 @@ body{
     color: rgb(255, 255, 255);
 
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Ajustez la marge selon vos besoins */
+    font-size: 27px;
+}
+
+
+.pagination .pagination-sm li.page-item a.page-link {
+    color: #007bff; /* Bleu clair, ajustez la couleur selon vos préférences */
+}
+
+
+
+

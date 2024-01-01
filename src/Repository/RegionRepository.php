@@ -39,20 +39,20 @@ class RegionRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Region[] Returns an array of Region objects
+//   /**
+//     * @return Artiste[] Returns an array of Artiste objects
 //     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+//     public function listeArtistesComplete()
+//     {
+//         return $this->createQueryBuilder('art')
+          
+//             ->select('art','a')
+//             ->leftjoin('art.albums','a')
+//             ->orderBy('art.nom', 'ASC')
+//             ->getQuery()
+//             ->getResult()
+//         ;
+//     }
 
 //    public function findOneBySomeField($value): ?Region
 //    {

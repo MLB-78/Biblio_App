@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -60,34 +61,37 @@ class ApiController extends AbstractController
     }
     
     /**
-     * @Route("/listeComParDep", name="listeComParDeps")
+    * @Route("/listeComParDep", name="listeComParDeps")
      */
-    public function listeComParDep(Request $request, SerializerInterface $serializer)
-{
-    $codeDepartement = $request->query->get('departement');
-    $mesDepartements = file_get_contents('https://geo.api.gouv.fr/departements');
-    $mesDepartementsArray = $serializer->decode($mesDepartements, 'json');
-    
-    // Utilisez tous les départements par défaut
-    $mesDepartements = $mesDepartementsArray;
-    
-    // Convertir $mesDepartements en tableau
-    $mesDepartements = array_values($mesDepartements);
+        public function listeComParDep(Request $request, SerializerInterface $serializer, PaginatorInterface $paginator)
+    {
+        $codeDepartement = $request->query->get('departement');
 
-    if ($codeDepartement == null || $codeDepartement == "Toutes") {
-        $mesComs = file_get_contents('https://geo.api.gouv.fr/communes');
-    } else {
-        $mesComs = file_get_contents('https://geo.api.gouv.fr/departements/'.$codeDepartement.'/communes');
+        // Récupérer tous les départements
+        $mesDepartements = file_get_contents('https://geo.api.gouv.fr/departements');
+        $mesDepartementsArray = $serializer->decode($mesDepartements, 'json');
+
+        if ($codeDepartement == null || $codeDepartement == "Toutes") {
+            $mesComs = file_get_contents('https://geo.api.gouv.fr/communes');
+        } else {
+            $mesComs = file_get_contents('https://geo.api.gouv.fr/departements/'.$codeDepartement.'/communes');
+        }
+
+        $mesComsArray = $serializer->decode($mesComs, 'json');
+
+        // Paginer les résultats
+        $pagination = $paginator->paginate(
+            $mesComsArray, // Utiliser le tableau à paginer
+            $request->query->getInt('page', 1), // Numéro de page
+            15 // Nombre d'éléments par page
+        );
+
+        return $this->render('api/listeCom.html.twig', [
+            'mesDepartements' => $mesDepartementsArray,
+            'mesComs' => $mesComsArray,
+            'pagination' => $pagination
+        ]);
     }
-
-    $mesComsArray = $serializer->decode($mesComs, 'json');
-
-    return $this->render('api/listeCom.html.twig', [
-        'mesDepartements' => $mesDepartements,
-        'mesComs' => $mesComsArray,
-    ]);
-}
-
 
 
 }
